@@ -6,17 +6,18 @@ export default function handler(req, res) {
     const privateKey = process.env.JITSI_PRIVATE_KEY;
 
     const payload = {
-      aud: "jitsi",
-      iss: process.env.JITSI_APP_ID,
-      sub: "8x8.vc",
-      room: "*",
-      exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
-      context: {
-        user: {
-          name: "Host"
-        }
-      }
-    };
+  aud: "jitsi",
+  iss: "chat",
+  sub: process.env.JITSI_APP_ID,
+  room: "*",
+  exp: Math.floor(Date.now() / 1000) + (60 * 60),
+  context: {
+    user: {
+      moderator: true,
+      name: "Host"
+    }
+  }
+};
 
     const token = jwt.sign(payload, privateKey, {
       algorithm: "RS256"
