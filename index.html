@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cozy Room</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://meet.jit.si/external_api.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+
+  <div id="video-container"></div>
+
+  <!-- Bottom Cozy Bar -->
+  <div id="bottom-bar">
+    <button id="music-toggle">🎵</button>
+    <button id="hug-btn">🤗 <span id="hug-count">0</span></button>
+    <button id="kiss-btn">💋 <span id="kiss-count">0</span></button>
+  </div>
+
+  <!-- Music Drawer -->
+  <div id="music-drawer">
+    <h3>Our Playlist 🎵</h3>
+    <input type="text" id="youtube-link" placeholder="Paste YouTube link">
+    <button id="add-song">Add</button>
+    <ul id="queue-list"></ul>
+    <div id="player"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
