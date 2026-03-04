@@ -27,6 +27,24 @@
     <div id="player"></div>
   </div>
 
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDazwYswEqk71cVjx3AHJryPqrrw1bTIEI",
+    authDomain:"cozy-space-f2fff.firebaseapp.com",
+    projectId: "cozy-space-f2fff",
+    storageBucket: "cozy-space-f2fff.firebasestorage.app",
+    messagingSenderId: "458529028353",
+    appId:"1:458529028353:web:06be4e262a40f9b4198300"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.db = db; 
+</script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
