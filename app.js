@@ -16,7 +16,7 @@ if (!roomName) {
 const domain = "8x8.vc";
 
 const options = {
-  roomName: "YOUR_APP_ID/" + roomName,
+  roomName: "vpaas-magic-cookie-015146b38a084d01b3812df4bd5863ec/" + roomName,
   parentNode: document.querySelector('#video-container'),
   width: "100%",
   height: "100%",
