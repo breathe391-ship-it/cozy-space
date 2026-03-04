@@ -1,8 +1,7 @@
+import { doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 // --------------------
-// 1️⃣ JITSI
-// --------------------
-// --------------------
-// JaaS Setup
+// ROOM SETUP
 // --------------------
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -12,6 +11,36 @@ if (!roomName) {
   roomName = "cozy-" + Math.random().toString(36).substring(2,8);
   window.location.search = "?room=" + roomName;
 }
+
+// --------------------
+// HOST ASSIGNMENT (FIREBASE)
+// --------------------
+
+const roomRef = doc(window.db, "rooms", roomName);
+let isHost = false;
+
+async function assignHost() {
+  const snap = await getDoc(roomRef);
+
+  if (!snap.exists()) {
+    await setDoc(roomRef, {
+      hostCreatedAt: Date.now(),
+      hugs: 0,
+      kisses: 0
+    });
+    isHost = true;
+    console.log("You are the host");
+  } else {
+    isHost = false;
+    console.log("You are a participant");
+  }
+}
+
+await assignHost();
+
+// --------------------
+// JAAAS VIDEO SETUP
+// --------------------
 
 const domain = "8x8.vc";
 
@@ -23,8 +52,9 @@ const options = {
 };
 
 const api = new JitsiMeetExternalAPI(domain, options);
+
 // --------------------
-// 2️⃣ MUSIC DRAWER TOGGLE
+// MUSIC DRAWER TOGGLE
 // --------------------
 
 const drawer = document.getElementById("music-drawer");
@@ -35,7 +65,7 @@ toggleBtn.onclick = () => {
 };
 
 // --------------------
-// 3️⃣ LOCAL QUEUE SYSTEM (TEMPORARY)
+// LOCAL QUEUE SYSTEM (TEMPORARY - WILL SYNC LATER)
 // --------------------
 
 let queue = [];
@@ -47,6 +77,11 @@ function extractVideoID(url) {
 }
 
 document.getElementById("add-song").onclick = () => {
+  if (!isHost) {
+    alert("Only host can control music");
+    return;
+  }
+
   const input = document.getElementById("youtube-link");
   const videoId = extractVideoID(input.value);
   if (!videoId) return alert("Invalid link");
@@ -63,13 +98,17 @@ function renderQueue() {
   queue.forEach((id, index) => {
     const li = document.createElement("li");
     li.textContent = "Video " + (index + 1);
-    li.onclick = () => playVideo(id);
+
+    if (isHost) {
+      li.onclick = () => playVideo(id);
+    }
+
     list.appendChild(li);
   });
 }
 
 // --------------------
-// 4️⃣ YOUTUBE PLAYER
+// YOUTUBE PLAYER
 // --------------------
 
 window.onYouTubeIframeAPIReady = function() {
@@ -81,11 +120,12 @@ window.onYouTubeIframeAPIReady = function() {
 };
 
 function playVideo(id) {
+  if (!isHost) return;
   player.loadVideoById(id);
 }
 
 // --------------------
-// 5️⃣ LOCAL COUNTERS
+// COUNTERS (LOCAL FOR NOW)
 // --------------------
 
 let hugs = 0;
