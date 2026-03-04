@@ -1,16 +1,28 @@
 // --------------------
 // 1️⃣ JITSI
 // --------------------
+// --------------------
+// JaaS Setup
+// --------------------
 
-const roomName = "cozy-" + Math.random().toString(36).substring(2,8);
+const urlParams = new URLSearchParams(window.location.search);
+let roomName = urlParams.get("room");
 
-const api = new JitsiMeetExternalAPI("meet.jit.si", {
-  roomName: roomName,
+if (!roomName) {
+  roomName = "cozy-" + Math.random().toString(36).substring(2,8);
+  window.location.search = "?room=" + roomName;
+}
+
+const domain = "8x8.vc";
+
+const options = {
+  roomName: "YOUR_APP_ID/" + roomName,
   parentNode: document.querySelector('#video-container'),
   width: "100%",
-  height: "100%"
-});
+  height: "100%",
+};
 
+const api = new JitsiMeetExternalAPI(domain, options);
 // --------------------
 // 2️⃣ MUSIC DRAWER TOGGLE
 // --------------------
