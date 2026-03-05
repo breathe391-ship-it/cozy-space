@@ -7,7 +7,7 @@ export default function handler(req, res) {
 
   const payload = {
   aud: "jitsi",
-  iss: process.env.JITSI_APP_ID,
+  iss: "chat",
   sub: process.env.JITSI_APP_ID,
   room: "*",
   exp: Math.floor(Date.now() / 1000) + (60 * 60),
