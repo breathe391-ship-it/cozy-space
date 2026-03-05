@@ -5,9 +5,9 @@ export default function handler(req, res) {
   try {
     const privateKey = process.env.JITSI_PRIVATE_KEY;
 
-   const payload = {
+  const payload = {
   aud: "jitsi",
-  iss: "chat",
+  iss: process.env.JITSI_APP_ID,
   sub: process.env.JITSI_APP_ID,
   room: "*",
   exp: Math.floor(Date.now() / 1000) + (60 * 60),
