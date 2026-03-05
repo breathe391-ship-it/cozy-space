@@ -20,8 +20,11 @@ export default function handler(req, res) {
 };
 
     const token = jwt.sign(payload, privateKey, {
-      algorithm: "RS256"
-    });
+  algorithm: "RS256",
+  header: {
+    kid: process.env.JITSI_KEY_ID
+  }
+});
 
     res.status(200).json({ token });
 
