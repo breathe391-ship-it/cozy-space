@@ -5,16 +5,24 @@ export default function handler(req, res) {
   try {
     const privateKey = process.env.JITSI_PRIVATE_KEY;
 
-    const payload = {
+   const payload = {
   aud: "jitsi",
   iss: "chat",
   sub: process.env.JITSI_APP_ID,
   room: "*",
   exp: Math.floor(Date.now() / 1000) + (60 * 60),
+
   context: {
+    features: {
+      livestreaming: true,
+      recording: true,
+      transcription: true,
+      "outbound-call": true
+    },
+
     user: {
       moderator: true,
-      name: "Host"
+      name: "Cozy User"
     }
   }
 };
