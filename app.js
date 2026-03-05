@@ -37,28 +37,50 @@ async function assignHost() {
 }
 
 // --------------------
-// SECURE JITSI SETUP (JWT FROM BACKEND)
+// JITSI SETUP WITH PASSWORD
 // --------------------
 
-  const roomName = "room-" + Math.floor(Math.random() * 1000000);
+function startJitsi() {
+  const jitsiRoomName = roomName + "-" + Math.floor(Math.random() * 1000);
 
-const options = {
-  roomName: roomName,
-  parentNode: document.querySelector('#video-container'),
-  width: "100%",
-  height: "100%"
-};
+  const options = {
+    roomName: jitsiRoomName,
+    parentNode: document.querySelector('#video-container'),
+    width: "100%",
+    height: "100%",
+    configOverwrite: {
+      enableWelcomePage: false
+    },
+    interfaceConfigOverwrite: {
+      SHOW_JITSI_WATERMARK: false,
+      SHOW_WATERMARK_FOR_GUESTS: false
+    }
+  };
 
-  new JitsiMeetExternalAPI("8x8.vc", options);
+  const api = new JitsiMeetExternalAPI("8x8.vc", options);
+
+  // Generate a password for the room
+  const roomPassword = "navrabaiko"; // <-- your custom password
+
+  api.addEventListener('videoConferenceJoined', () => {
+    if (isHost) {
+      api.executeCommand('password', roomPassword);
+      console.log("Room password set:", roomPassword);
+    }
+  });
+
+  api.addEventListener('passwordRequired', () => {
+    api.executeCommand('password', roomPassword);
+  });
 }
 
 // --------------------
-// INITIALIZE APP (ORDER MATTERS)
+// INITIALIZE APP
 // --------------------
 
 async function init() {
   await assignHost();
-  await startJitsi();
+  startJitsi();
 }
 
 init();
