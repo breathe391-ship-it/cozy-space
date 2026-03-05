@@ -57,10 +57,11 @@ function startJitsi() {
     }
   };
 
-  const api = new JitsiMeetExternalAPI("8x8.vc", options);
+  // Use the public Jitsi server to avoid login
+  const api = new JitsiMeetExternalAPI("meet.jit.si", options);
 
-  // Generate a password for the room
-  const roomPassword = "navrabaiko"; // <-- your custom password
+  // Set automatic password
+  const roomPassword = "navrabaiko";
 
   api.addEventListener('videoConferenceJoined', () => {
     if (isHost) {
