@@ -44,13 +44,14 @@ async function startJitsi() {
   const response = await fetch("/api/generate-jwt");
   const data = await response.json();
 
-  const options = {
-    roomName: "vpaas-magic-cookie-015146b38a084d01b3812df4bd5863ec/" + roomName,
-    parentNode: document.querySelector("#video-container"),
-    width: "100%",
-    height: "100%",
-    jwt: data.token
-  };
+  const roomName = "room-" + Math.floor(Math.random() * 1000000);
+
+const options = {
+  roomName: roomName,
+  parentNode: document.querySelector('#video-container'),
+  width: "100%",
+  height: "100%"
+};
 
   new JitsiMeetExternalAPI("8x8.vc", options);
 }
