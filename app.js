@@ -40,10 +40,6 @@ async function assignHost() {
 // SECURE JITSI SETUP (JWT FROM BACKEND)
 // --------------------
 
-async function startJitsi() {
-  const response = await fetch("/api/generate-jwt");
-  const data = await response.json();
-
   const roomName = "room-" + Math.floor(Math.random() * 1000000);
 
 const options = {
